@@ -89,7 +89,11 @@ func Startup(config *Config) {
 	}
 
 	// Override default glib logging handler to intercept logging messages
-	enableLogging()
+	if os.Getenv("LOG_LEVEL") == "debug" {
+		enableLogging()
+	} else {
+		disableLogging()
+	}
 
 	err := C.vips_init(cName)
 	if err != 0 {
